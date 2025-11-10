@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ゼミ概要｜及川ゼミ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic&display=swap" rel="stylesheet" />
+  <meta name="description" content="及川ゼミの概要ページ。教員紹介、授業頻度、活動内容、カリキュラム、ゼミの雰囲気など。">
+
+  <style>
+    /* ===== ベース ===== */
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: "Zen Maru Gothic", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      color:#333;
+      background:#fffaf2; /* ほんのりクリームで紙っぽく */
+    }
+
+    :root{
+      /* 見出し帯（共通） */
+      --bar-color:#CDA209; --bar-text:#fff; --bar-max:1100px; --bar-line-thin:2px;
+      /* トーン/共通UI */
+      --card:#fff; --line:#e6e6e6; --shadow:0 6px 18px rgba(0,0,0,.06); --radius:14px;
+      --muted:#666; --brand:#1f6feb;
+      --wrap:min(1000px,92vw);
+      /* メディア高さ */
+      --media-h-desktop:200px; --media-h-mobile:220px;
+    }
+
+    @media (prefers-color-scheme: dark){
+      :root{ --card:#1f1f1f; --muted:#bbb; --shadow:0 2px 10px rgba(0,0,0,.5); }
+      body{ color:#eee; background:#111; }
+    }
+    /* ===== ヘッダー ===== */
+    .site-header{
+      position:sticky; top:0; z-index:1000;
+      height:60px; background:#003366;
+      display:flex; align-items:center;
+      padding:0 3%; box-sizing:border-box;
+      overflow-x:auto; -webkit-overflow-scrolling:touch;
+    }
+    .site-header::-webkit-scrollbar { display: none; }
+    .header-nav{ display:flex; flex-wrap:nowrap; gap:24px; white-space:nowrap; }
+    .header-nav a{ color:#fff; text-decoration:none; font-size:16px; line-height:1.2; padding:.5rem 0; }
+    .header-nav a:hover{ color:#00a2ff; }
+    @media (max-width: 768px){
+      .header-nav{ gap:16px; }
+      .header-nav a{ font-size:14px; }
+    }
+
+    /* ===== ヒーロー ===== */
+    .teacher-top{ position:relative; width:100%; height:360px; overflow:hidden; }
+    .top-image{ width:100%; height:100%; object-fit:cover; display:block; }
+    .teacheroverlay-box{
+      position:absolute; inset:0; background:rgba(0,0,0,.6);
+      display:flex; align-items:center; justify-content:center; z-index:1;
+    }
+    .teacheroverlay-text{
+      color:#fff; text-align:center; font-weight:bold; line-height:1.6;
+      font-family:"Zen Maru Gothic", sans-serif;
+    }
+
+    /* ========== 見出し帯（ゼミ概要と統一） ========== */
+    .bar-title{
+      /* widthは指定しない（max-widthのみで中央寄せ） */
+      max-width:var(--bar-max);
+      margin:1.5rem auto;
+      background:var(--bar-color);
+      position:relative;
+      padding:1rem 1.5rem;
+      box-sizing:border-box;
+      border-top:1px solid rgba(205,162,9,.8);
+      border-bottom:1px solid rgba(205,162,9,.8);
+    }
+    .bar-title::before,
+    .bar-title::after{
+      content:""; position:absolute; left:0; width:100%;
+      height:var(--bar-line-thin); background:#fff;
+    }
+    .bar-title::before{ top:0; }
+    .bar-title::after{ bottom:0; }
+    .bar-title__text{
+      color:var(--bar-text);
+      font-size:clamp(1.4rem,3vw,1.8rem);
+      font-weight:700; margin:0; text-align:center;
+    }
+    @media (max-width:1024px){
+      .bar-title{ margin:1.5rem .5rem; border-radius:.4rem; }
+    }
+
+
+    /* ===== 付箋（青・緑・橙） ===== */
+   .sticky-noteblue, .sticky-notegreen, .sticky-noteorange{
+      position:relative; width:min(30rem,92vw); min-height:30rem; margin:3.5rem auto 2rem; padding:1rem;
+      background:#b3e5f2; box-shadow:0 .25rem .5rem rgba(0,0,0,.2); border-radius:.2rem;
+    }
+    .sticky-notegreen{ background:#d5ef74; }
+    .sticky-noteorange{ background:#ffd878; }
+    .tapeblue, .tapegreen, .tapeorange{
+      position:absolute; top:-2rem; left:50%; transform:translateX(-50%);
+      width:12rem; height:4rem; background:#66bad1;
+    }
+    .tapegreen{ background:#a9d64f; }
+    .tapeorange{ background:#f6a00a; }
+    .note-content{ padding:2.5rem 1rem 1rem; }
+    .note-content h1{ font-size:2.2rem; text-align:center; margin:.2rem 0; }
+    .note-content h2{ font-size:1.6rem; margin:1rem 0 .2rem; }
+    .note-content p{ font-size:1.15rem; margin:.2rem 0; }
+    @media (max-width:600px){
+      .sticky-noteblue,.sticky-notegreen,.sticky-noteorange{ width:80vw; min-height:80vw; padding:1rem 1rem; }
+      .tapeblue,.tapegreen,.tapeorange{ width:8rem; height:2.5rem; top:-1.25rem; }
+      .note-content{ padding-top:2rem; }
+      .note-content h1{ font-size:1.8rem; }
+      .note-content h2{ font-size:1.4rem; }
+      .note-content p{ font-size:1.05rem; }
+    }
+b {
+  font-family: "Noto Sans JP", sans-serif;
+  font-weight: 500;
+}
+
+    /* ===== 教員紹介の横並び ===== */
+    .teacher-about-flex{ display:flex; justify-content:center; align-items:center; gap:2rem; flex-wrap:nowrap; }
+    .teacher-image-wrapper{ display:block; }
+    .teacher-image{
+      max-width:min(30rem,92vw);
+      height:auto;
+      display:block;
+      border-radius:.5rem;
+      background:transparent;   /* 背景透過 */
+      border:none;              /* 枠線なし */
+      box-shadow:none;          /* 影なし → “枠”に見える原因を除去 */
+      mix-blend-mode:multiply;  /* 画像に白縁があっても馴染ませる（不要なら削除OK） */
+    }
+    @media (max-width:1024px){
+      .teacher-about-flex{ flex-direction:column; align-items:center; }
+    }
+
+    /* ===== 活動カード群 ===== */
+    .activities__list{ display:flex; flex-direction:column; gap:1.5rem; max-width:1000px; margin:0 auto; padding:0 1rem; }
+    .activity{
+      display:grid; grid-template-columns:280px 1fr; gap:1.5rem;
+      background:#fff; border:1px solid #ddd; border-radius:1rem; padding:1.5rem;
+      min-height:240px; box-sizing:border-box;
+    }
+    .activity__media{ background:#fff; border:1px solid #eee; border-radius:.6rem; overflow:hidden; height:var(--media-h-desktop); }
+    .activity__media img{ display:block; width:100%; height:100%; object-fit:cover; object-position:center; border-radius:inherit; }
+    .activity__body{ display:flex; flex-direction:column; justify-content:center; }
+    .activity__heading{ font-size:1.4rem; font-weight:600; margin:0 0 .5rem; }
+    .activity__text{ font-size:1rem; line-height:1.7; color:#333; margin:0; }
+    @media (max-width:768px){
+      .activity{ grid-template-columns:1fr; min-height:auto; }
+      .activity__media{ height:var(--media-h-mobile); margin-bottom:1rem; }
+    }
+
+    /* ===== 授業頻度 ===== */
+    .about-list { margin: 0; padding: 0 1rem; max-width: 1000px; margin-left:auto; margin-right:auto; }
+    .about-item{
+      display: grid;
+      grid-template-columns: 6em 1fr;
+      gap: 1rem;
+      align-items: baseline; /* ← startからbaselineに変更 */;
+      padding: .9rem 0;
+      border-top: 1px solid #eee;
+    }
+    .about-item:first-child{ border-top: none; }
+
+    .about-item dt{
+      margin: 0;
+      font-weight: 700;
+      color: #444;
+      position: relative;
+      padding-left: .75rem;
+    }
+    .about-item dt::before{
+      content: "";
+      position: absolute;
+      left: 0; top: .15rem; bottom: .15rem;
+      width: 4px;
+      background: #d8d4c8;
+      border-radius: 2px;
+    }
+
+    .about-item dd{
+      margin: 0;
+      color: #2e4057;
+      line-height: 1.9;
+      word-break: break-word;
+    }
+
+    .about-note{
+      display: block;
+      margin-top: .35rem;
+      font-size: .95rem;
+      color: #666;
+      padding-left: .75rem;
+      border-left: 3px solid #e6e2d8;
+    }
+
+    @media (max-width: 480px){
+      .about-item{ grid-template-columns: 5.5em 1fr; gap: .75rem; }
+      .about-list{ padding: 0 .5rem; }
+    }
+
+    /* ===== カリキュラム枠 ===== */
+    .curriculum__frame{ max-width:1000px; margin:0 auto; padding:1rem; }
+    .curriculum__media{
+      background:#fff; border:1px solid #ddd; border-radius:1rem; box-shadow:0 4px 14px rgba(0,0,0,.08);
+      padding:1rem; display:flex; justify-content:center; align-items:center;
+    }
+    .curriculum__img{ width:100%; height:auto; object-fit:contain; border-radius:.5rem; }
+
+    /* ===== フッター ===== */
+    .site-footer{ background:#333; color:#fff; padding:1rem; text-align:center; margin-top:2rem; }
+    .footer-sns img{ width:3rem; height:auto; margin:1rem; vertical-align:middle; }
+    .line-icon{ border-radius:50%; overflow:hidden; }
+    .footer-links{ display:flex; flex-wrap:wrap; justify-content:center; gap:.8rem; margin-bottom:.5rem; }
+    .footer-links a{ color:#fff; text-decoration:none; white-space:nowrap; }
+    .footer-links a:hover{ text-decoration:underline; }
+    .footer-copy{ font-size:.9rem; color:#ccc; margin:.5rem 0 0; }
+  </style>
+</head>
+
+<body>
+
+  <!-- ヘッダー -->
+  <header class="site-header" role="banner">
+    <nav class="header-nav" aria-label="主要ナビゲーション">
+      <a href="index.html">トップページ</a>
+      <a href="outline.html" aria-current="page">ゼミ概要</a>
+      <a href="question.html">Q&amp;A</a>
+      <a href="schedule.html">年度予定</a>
+      <a href="teacher.html">教員紹介</a>
+      <a href="student.html">ゼミ生紹介</a>
+      <a href="news.html">お知らせ</a>
+    </nav>
+  </header>
+
+  <!-- ヒーロー -->
+  <section class="teacher-top" aria-label="ページ上部ビジュアル">
+    <div class="teacheroverlay-box">
+      <div class="teacheroverlay-text"><h1>ゼ　ミ　概　要</h1></div>
+    </div>
+  </section>
+
+  <!-- 及川ゼミとは -->
+  <section class="activities" id="about-seminar">
+    <div class="bar-title">
+      <h2 class="bar-title__text">及川ゼミとは</h2>
+    </div>
+    <div class="sticky-noteblue">
+      <div class="tapeblue"></div>
+      <div class="note-content">
+        <h2>テーマ</h2>
+        <p>経済学とデータ分析で身近な現象・課題を読み解く</p>
+        <br>
+        <h2>目標</h2>
+        <p>
+          身近な現象や課題について、<b>「仮説設定 → データ収集 → 分析・解釈 → 論文執筆」</b>のプロセスを自分で行う力を身につける
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 教員紹介 -->
+  <section class="section" id="teacher">
+    <div class="bar-title">
+      <h2 class="bar-title__text">教員紹介</h2>
+    </div>
+
+    <div class="teacher-about-flex">
+      <div class="teacher-image-wrapper">
+        <img src="及川先生.png" class="teacher-image" alt="及川先生の写真">
+      </div>
+
+      <div class="teacher-fusen-wrapper">
+        <div class="sticky-notegreen">
+          <div class="tapegreen"></div>
+          <div class="note-content">
+            <h1><strong>及川　雅斗</strong></h1>
+            <br>
+            <h2>所属</h2>
+            <p>早稲田大学<br>教育・総合科学学術院 教育学部</p>
+            <br>
+            <h2>専門</h2>
+            <p>医療経済学・応用ミクロ経済学</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 授業頻度 -->
+  <section class="activities" id="frequency">
+    <div class="bar-title">
+      <h2 class="bar-title__text">授業頻度</h2>
+    </div>
+
+    <dl class="about-list" aria-label="授業曜日と時限">
+      <div class="about-item">
+        <dt>3年生</dt>
+        <dd>
+          水曜日3限
+          <span class="about-note">※3年生春学期のみ「公共市民学研究（プログラム評価のためのデータ分析）」の履修が必須です。</span>
+        </dd>
+      </div>
+      <div class="about-item">
+        <dt>4年生</dt>
+        <dd>水曜日4限</dd>
+      </div>
+    </dl>
+  </section>
+
+  <!-- 活動内容 -->
+  <section class="activities" id="activities">
+    <div class="bar-title">
+      <h2 class="bar-title__text">活動内容</h2>
+    </div>
+
+    <div class="activities__list">
+      <!-- 1. 教科書輪読 -->
+      <article class="activity">
+        <div class="activity__media">
+          <img src="教科書輪読.jpg" alt="教科書輪読の様子">
+        </div>
+        <div class="activity__body">
+          <h3 class="activity__heading">教科書輪読</h3>
+          <p class="activity__text">
+            『アメリカの大学生が学んでいる「伝え方」の教科書』や『経済論文の書き方』を題材とし、章ごとにテキストを区切って輪読を行います。5つのグループに分かれ、それぞれ担当箇所を精読し、まとめや解説を発表します。
+          </p>
+        </div>
+      </article>
+
+      <!-- 2. グループ論文 -->
+      <article class="activity">
+        <div class="activity__media">
+          <img src="グループ論文.jpg" alt="グループ論文の様子">
+        </div>
+        <div class="activity__body">
+          <h3 class="activity__heading">グループ論文</h3>
+          <p class="activity__text">
+            3つのグループに分かれ、それぞれが身近な社会問題や事象（例：学校ブランドと就職先の関係性など）を題材に、データ分析を用いた研究に取り組みます。最終的には、3年生の1月に他学部とのインゼミを実施し、各グループが研究成果を発表する予定です。
+          </p>
+        </div>
+      </article>
+
+      <!-- 3. 時事ネタ発表会 -->
+      <article class="activity">
+        <div class="activity__media">
+          <img src="日経新聞.jpg" alt="時事ネタ発表会の様子">
+        </div>
+        <div class="activity__body">
+          <h3 class="activity__heading">時事ネタ発表会</h3>
+          <p class="activity__text">
+            毎回の授業の冒頭に1〜2人が担当し、各自が興味を持ったテーマを取り上げます。「記事を選んだ理由」「疑問に思ったこと」「社会的重要性」を中心に発表し、その後ゼミ生と意見を交換します。
+          </p>
+        </div>
+      </article>
+
+      <!-- 4. Stataの学習 -->
+      <article class="activity">
+        <div class="activity__media">
+          <img src="統計ソフト.png" alt="統計ソフト Stata">
+        </div>
+        <div class="activity__body">
+          <h3 class="activity__heading">統計ソフト Stata の学習</h3>
+          <p class="activity__text">
+            グループ論文や卒業論文で使用する統計ソフトStataについては、3年生の春学期に開講される「公共市民学研究（プログラム評価のためのデータ分析）」や、ゼミ後半の授業で扱います。実際のオープンデータを用いながら、基礎から学習を進めます。
+          </p>
+        </div>
+      </article>
+
+      <!-- 5. ゼミ合宿 -->
+      <article class="activity">
+        <div class="activity__media">
+          <img src="ゼミ合宿.jpg" alt="ゼミ合宿の様子">
+        </div>
+        <div class="activity__body">
+          <h3 class="activity__heading">ゼミ合宿</h3>
+          <p class="activity__text">
+            早稲田セミナーハウスにて1泊2日のゼミ合宿を行います。構想発表会、レクリエーション、観光、BBQなど多彩なイベントを通じて親睦を深めます。
+          </p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- カリキュラム -->
+  <section class="activities" id="curriculum">
+    <div class="bar-title">
+      <h2 class="bar-title__text">カリキュラム</h2>
+    </div>
+
+    <div class="curriculum__frame">
+      <div class="curriculum__media">
+        <img src="カリキュラム.png" alt="カリキュラム" class="curriculum__img">
+      </div>
+    </div>
+  </section>
+
+  <!-- ゼミの雰囲気 -->
+  <div class="bar-title">
+    <h2 class="bar-title__text">ゼミの雰囲気</h2>
+  </div>
+
+  <!-- ゼミ生の声 -->
+  <section class="section" id="voices">
+    <div class="sticky-noteorange">
+      <div class="tapeorange"></div>
+      <div class="note-content">
+        <h1><strong>ゼミ生の声</strong></h1>
+        <br>
+        <p>
+          ・先生がどんな質問にも丁寧に答えてくれる<br>
+          ・先生が優しい<br>
+          ・本格的なデータ分析ができる<br>
+          ・発言しやすい<br>
+          ・etc
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- フッター -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-sns">
+      <a href="https://www.instagram.com/oikawa_zemiii?igsh=MTk3d201NWJvczlxaA==" target="_blank" rel="noopener">
+        <img src="インスタ.png" alt="Instagram" class="insta-icon" />
+      </a>
+      <a href="https://line.me/ti/g2/SfbULoGEmAWoT1aAh0XnD6KRkZOXD4zk79qlug?utm_source=invitation&utm_medium=QR_code&utm_campaign=default" target="_blank" rel="noopener">
+        <img src="オープンチャット.png" alt="LINEオープンチャット" class="line-icon" />
+      </a>
+    </div>
+
+    <nav class="footer-links" aria-label="フッターナビゲーション">
+      <a href="index.html">トップページ</a>
+      <a href="outline.html" aria-current="page">ゼミ概要</a>
+      <a href="question.html">Q&amp;A</a>
+      <a href="schedule.html">年度予定</a>
+      <a href="teacher.html">教員紹介</a>
+      <a href="student.html">ゼミ生紹介</a>
+      <a href="news.html">お知らせ</a>
+    </nav>
+
+    <p class="footer-copy">Copyright © Oikawa Seminar Rights Reserved.</p>
+  </footer>
+
+</body>
+</html>

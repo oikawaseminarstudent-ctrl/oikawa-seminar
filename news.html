@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>お知らせ｜及川ゼミ</title>
+
+  <!-- フォント -->
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ==============================
+       ベース設定
+    ============================== */
+    html, body {
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: "Zen Maru Gothic", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      color: #333;
+      background: #fffaf2; /* ほんのりクリームで紙っぽく */
+    }
+
+    :root {
+      /* カラートークン */
+      --bar-color: #CDA209;
+      --bar-text: #fff;
+      --bar-max: 1100px;
+      --bar-line-thin: 2px;
+
+      /* トーン/共通UI */
+      --card: #fffaf2;
+      --line: #e6e6e6;
+      --shadow: 0 6px 18px rgba(0,0,0,.06);
+      --radius: 14px;
+      --muted: #666;
+      --brand: #1f6feb;
+      --wrap: min(1000px, 92vw);
+
+      /* メディア高さ */
+      --media-h-desktop: 200px;
+      --media-h-mobile: 220px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --card-bg: #1f1f1f;
+        --muted: #bbb;
+        --shadow: 0 2px 10px rgba(0,0,0,.5);
+      }
+      body {
+        color: #fffaf2;
+      }
+    }
+
+    /* ==============================
+       オーバーレイ（上部画像共通）
+    ============================== */
+    .teacher-top {
+      position: relative;
+      width: 100%;
+      height: 360px;
+      overflow: hidden;
+    }
+
+    .teacheroverlay-box {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1;
+    }
+
+    .teacheroverlay-text {
+      color: white;
+      text-align: center;
+      font-weight: bold;
+      font-family: 'Zen Maru Gothic', sans-serif;
+      line-height: 1.6;
+    }
+
+    /* ==============================
+       ヘッダー
+    ============================== */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      height: 60px;
+      background: #003366;
+      display: flex;
+      align-items: center;
+      padding: 0 3%;
+      box-sizing: border-box;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* スクロールバー非表示 */
+    .site-header::-webkit-scrollbar {
+      display: none;
+    }
+
+    .header-nav {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 24px;
+      white-space: nowrap;
+      justify-content: flex-start;
+    }
+
+    .header-nav a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 16px;
+      line-height: 1.2;
+      padding: 0.5rem 0;
+    }
+
+    .header-nav a:hover {
+      color: #00a2ff;
+    }
+
+    @media (max-width: 768px) {
+      .header-nav { gap: 16px; }
+      .header-nav a { font-size: 14px; }
+    }
+
+    /* ==============================
+       見出し帯
+    ============================== */
+    .bar-title {
+      width: 100%;
+      max-width: var(--bar-max);
+      margin: 1.5rem auto;
+      background: var(--bar-color);
+      position: relative;
+      padding: 1rem 1.5rem;
+      box-sizing: border-box;
+      border-top: 1px solid rgba(205,162,9,.8);
+      border-bottom: 1px solid rgba(205,162,9,.8);
+    }
+
+    .bar-title::before,
+    .bar-title::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: #fff;
+    }
+
+    .bar-title::before { top: 0; }
+    .bar-title::after  { bottom: 0; }
+
+    .bar-title__text {
+      color: #fff;
+      font-size: clamp(1.4rem, 3vw, 1.8rem);
+      font-weight: 700;
+      margin: 0;
+      text-align: center;
+    }
+
+    @media (max-width: 1024px) {
+      .bar-title {
+        width: auto;
+        margin: 1.5rem .5rem;
+        border-radius: .4rem;
+      }
+    }
+
+    /* ==============================
+       お知らせ一覧
+    ============================== */
+    .announcement-page {
+      background: #fffaf2;
+      display: flex;
+      justify-content: center;
+      padding: 2rem 1rem;
+      box-sizing: border-box;
+    }
+
+    .announcement-container {
+      max-width: 800px;
+      width: 100%;
+    }
+
+    .announcement-card {
+      padding: 1.5rem 0;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .announcement-card:last-of-type {
+      border-bottom: none;
+    }
+
+    .announcement-date {
+      color: #777;
+      font-size: .9rem;
+      margin: .1rem 0 .3rem;
+    }
+
+    .announcement-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin: .2rem 0 .8rem;
+      color: #222;
+    }
+
+    .announcement-content {
+      font-size: 1rem;
+      line-height: 1.7;
+      margin: 0 0 .8rem 0;
+    }
+
+    .announcement-link {
+      color: #007acc;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .announcement-link:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
+      .announcement-page { padding: 1.5rem 1rem; }
+      .announcement-title { font-size: 1.1rem; }
+      .announcement-content { font-size: .95rem; }
+    }
+
+    /* ==============================
+       フッター
+    ============================== */
+    .site-footer {
+      background: #333;
+      color: #fff;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .footer-sns img {
+      width: 3rem;
+      height: auto;
+      margin: 1rem;
+      vertical-align: middle;
+    }
+
+    .line-icon {
+      border-radius: 50%;
+      overflow: hidden;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: .8rem;
+      margin-bottom: .5rem;
+    }
+
+    .footer-links a {
+      color: #fff;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+
+    .footer-copy {
+      font-size: .9rem;
+      color: #ccc;
+      margin: .5rem 0 0;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ============================== -->
+  <!-- ヘッダー -->
+  <!-- ============================== -->
+  <header class="site-header" role="banner">
+    <nav class="header-nav" aria-label="主要ナビゲーション">
+      <a href="index.html">トップページ</a>
+      <a href="outline.html">ゼミ概要</a>
+      <a href="question.html">Q&amp;A</a>
+      <a href="schedule.html">年度予定</a>
+      <a href="teacher.html">教員紹介</a>
+      <a href="student.html">ゼミ生紹介</a>
+      <a href="news.html" aria-current="page">お知らせ</a>
+    </nav>
+  </header>
+
+  <!-- ============================== -->
+  <!-- トップビジュアル -->
+  <!-- ============================== -->
+  <section class="teacher-top" aria-label="ページ上部ビジュアル">
+    <div class="teacheroverlay-box">
+      <div class="teacheroverlay-text"><h1>お　知　ら　せ</h1></div>
+    </div>
+  </section>
+
+  <!-- ============================== -->
+  <!-- セクション見出し -->
+  <!-- ============================== -->
+  <div class="bar-title">
+    <h2 class="bar-title__text">最新のお知らせ</h2>
+  </div>
+
+  <!-- ============================== -->
+  <!-- お知らせ一覧 -->
+  <!-- ============================== -->
+  <div class="announcement-page">
+    <div class="announcement-container">
+
+      <div class="announcement-card">
+        <p class="announcement-date">2025年10月24日</p>
+        <h2 class="announcement-title">ゼミ生アンケート実施しました！</h2>
+        <p class="announcement-content">
+         及川ゼミ1期生を対象に、所属先や授業外の勉強時間、ゼミを選んだ理由、そして及川ゼミの好きなところなどについてアンケートを実施しました！ぜひご覧ください! 
+        </p>
+        <a href="https://drive.google.com/file/d/1zWmEGknOIAGnuFFy7z6cHUXNHIBULURe/view?usp=drivesdk"
+           class="announcement-link" target="_blank" rel="noopener">詳細はこちら</a>
+      </div>
+
+      <div class="announcement-card">
+        <p class="announcement-date">2025年10月17日</p>
+        <h2 class="announcement-title">オープンチャット始動</h2>
+        <p class="announcement-content">
+          どこに聞けば良いか分からないよという方、これから及川ゼミを知りたい方向けにオープンチャットを作りました👏 ぜひご参加ください！
+        </p>
+        <a href="https://line.me/ti/g2/SfbULoGEmAWoT1aAh0XnD6KRkZOXD4zk79qlug?utm_source=invitation&utm_medium=QR_code&utm_campaign=default"
+           class="announcement-link" target="_blank" rel="noopener">詳細はこちら</a>
+      </div>
+
+      <div class="announcement-card">
+        <p class="announcement-date">2025年10月9日</p>
+        <h2 class="announcement-title">オープンゼミ実施のお知らせ</h2>
+        <p class="announcement-content">
+          下記の日程で、ゼミを実際に見学できる「オープンゼミ」を実施します！<br>
+          🗓 日程<br>
+          ①10/15（水）3限　13:10〜14:50<br>
+          ②10/22（水）3限　13:10〜14:50<br>
+          📍 教室：3号館604号室<br>
+          📚 内容：教員自己紹介／ゼミ概要説明／通常授業（時事ネタディスカッション・グループワーク）／座談会<br>
+          ✨ 予約不要・途中入退出自由<br><br>
+          ⏰ 進行の流れ（目安）<br>
+          ①教員自己紹介＋ゼミ概要説明（5分）<br>
+          ②時事ネタディスカッション（10分）<br>
+          ③座談会（20分）<br>
+          ④グループワーク（30分）<br>
+          ⑤座談会（20分）<br>
+          ⑥教員自己紹介＋ゼミ概要説明（5分）<br>
+          ※①・⑥は同一内容です。
+        </p>
+      </div>
+
+      <div class="announcement-card">
+        <p class="announcement-date">2025年8月20日</p>
+        <h2 class="announcement-title">ホームページ始動</h2>
+        <p class="announcement-content">
+          及川ゼミ（早稲田大学教育学部 社会科 公共市民学専修）のホームページが始動しました！今後、Q&Aやお知らせを順次更新予定です。
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================== -->
+  <!-- フッター -->
+  <!-- ============================== -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-sns">
+      <a href="https://www.instagram.com/oikawa_zemiii?igsh=MTk3d201NWJvczlxaA==" target="_blank" rel="noopener">
+        <img src="インスタ.png" alt="Instagram" class="insta-icon" />
+      </a>
+      <a href="https://line.me/ti/g2/SfbULoGEmAWoT1aAh0XnD6KRkZOXD4zk79qlug?utm_source=invitation&utm_medium=QR_code&utm_campaign=default" target="_blank" rel="noopener">
+        <img src="オープンチャット.png" alt="LINEオープンチャット" class="line-icon" />
+      </a>
+    </div>
+
+    <nav class="footer-links" aria-label="フッターナビゲーション">
+      <a href="index.html">トップページ</a>
+      <a href="outline.html">ゼミ概要</a>
+      <a href="question.html">Q&amp;A</a>
+      <a href="schedule.html">年度予定</a>
+      <a href="teacher.html">教員紹介</a>
+      <a href="student.html">ゼミ生紹介</a>
+      <a href="news.html" aria-current="page">お知らせ</a>
+    </nav>
+
+    <p class="footer-copy">Copyright © Oikawa Seminar Rights Reserved.</p>
+  </footer>
+
+</body>
+</html>
+

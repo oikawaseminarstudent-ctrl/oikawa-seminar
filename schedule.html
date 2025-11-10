@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>及川ゼミ｜年度予定</title>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ========== Base ========== */
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: "Zen Maru Gothic", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      color: #333;
+      background: #fffaf2; /* ほんのりクリーム */
+    }
+
+    :root{
+      /* 見出し帯（共通） */
+      --bar-color:#CDA209; --bar-text:#fff; --bar-max:1100px; --bar-line-thin:2px;
+      /* トーン/共通UI */
+      --card:#fff; --line:#e6e6e6; --shadow:0 6px 18px rgba(0,0,0,.06); --radius:14px;
+      --muted:#666; --brand:#003366;
+      --wrap:min(1000px,92vw);
+      /* メディア高さ */
+      --media-h-desktop:200px; --media-h-mobile:220px;
+    }
+
+    @media (prefers-color-scheme: dark){
+      :root{ --card:#1f1f1f; --muted:#bbb; --shadow:0 2px 10px rgba(0,0,0,.5); }
+      body{ color:#eee; background:#111; }
+    }
+
+    /* ========== Header ========== */
+    .site-header{
+      position: sticky; top: 0; z-index: 1000; height: 60px; background: #003366;
+      display: flex; align-items: center; padding: 0 3%;
+      box-sizing: border-box; overflow-x: auto; -webkit-overflow-scrolling: touch;
+    }
+    .site-header::-webkit-scrollbar{ display:none; }
+    .header-nav{ display:flex; flex-wrap:nowrap; gap:24px; white-space:nowrap; }
+    .header-nav a{ color:#fff; text-decoration:none; font-size:16px; line-height:1.2; padding:.5rem 0; }
+    .header-nav a:hover{ color:#00a2ff; }
+    @media (max-width:768px){ .header-nav{ gap:16px; } .header-nav a{ font-size:14px; } }
+
+    /* ========== Hero ========== */
+    .teacher-top{ position:relative; width:100%; height:360px; overflow:hidden; }
+    .top-image{ width:100%; height:100%; object-fit:cover; display:block; }
+    .teacheroverlay-box{
+      position:absolute; inset:0; background:rgba(0,0,0,.6);
+      display:flex; align-items:center; justify-content:center; z-index:1;
+    }
+    .planoverlay-text{
+      color:#fff; text-align:center; font-weight:bold; line-height:1.6;
+      font-family:"Zen Maru Gothic", sans-serif;
+    }
+
+    /* ========== 見出し帯（ゼミ概要と統一） ========== */
+    .bar-title{
+      max-width:var(--bar-max);
+      margin:1.5rem auto;
+      background:var(--bar-color);
+      position:relative;
+      padding:1rem 1.5rem;
+      box-sizing:border-box;
+      border-top:1px solid rgba(205,162,9,.8);
+      border-bottom:1px solid rgba(205,162,9,.8);
+    }
+    .bar-title::before,
+    .bar-title::after{
+      content:""; position:absolute; left:0; width:100%;
+      height:var(--bar-line-thin); background:#fff;
+    }
+    .bar-title::before{ top:0; }
+    .bar-title::after{ bottom:0; }
+    .bar-title__text{
+      color:var(--bar-text);
+      font-size:clamp(1.4rem,3vw,1.8rem);
+      font-weight:700; margin:0; text-align:center;
+    }
+    @media (max-width:1024px){
+      .bar-title{ margin:1.5rem .5rem; border-radius:.4rem; }
+    }
+
+    /* ========== Layout ========== */
+    .wrap{ width:var(--wrap); margin:48px auto; }
+    .year-title{
+      font-size:1.4rem; color: darkblue;
+      border-left:6px solid var(--brand); padding-left:.6rem; margin:2rem 0 1rem;
+    }
+    .section-subtitle{ font-size:1.1rem; font-weight:700; margin:20px 0 10px; }
+
+    /* ========== Table ========== */
+    .table{
+      width:100%;
+      border-collapse:collapse;
+      background:var(--card);
+      box-shadow:var(--shadow);
+      border-radius:var(--radius);
+      overflow:hidden;
+      table-layout:fixed; /* 列幅を固定 */
+    }
+    .table th,
+    .table td{
+      padding:.85rem 1rem;
+      border-bottom:1px solid var(--line);
+      vertical-align:top;
+      word-wrap:break-word;
+    }
+    .table thead th{ background:#f6f8fa; text-align:left; font-weight:700; }
+    .table tr:last-child td{ border-bottom:none; }
+
+    /* 列幅（全表共通） */
+    .table thead th:nth-child(1),
+    .table tbody td:nth-child(1){ width:12%; } /* 月 */
+    .table thead th:nth-child(2),
+    .table tbody td:nth-child(2){ width:58%; } /* 主な内容 */
+    .table thead th:nth-child(3),
+    .table tbody td:nth-child(3){ width:30%; } /* 備考 */
+
+    .mm{ white-space:nowrap; font-variant-numeric:tabular-nums; }
+    .badge{
+      display:inline-block; border:1px solid var(--line); border-radius:999px;
+      padding:.15rem .55rem; font-size:.85rem; margin-right:.25rem;
+    }
+
+    /* ========== Cards ========== */
+    .grid{ display:grid; gap:14px; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); }
+    .card{
+      background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow);
+      padding:1rem 1.1rem; display:flex; flex-direction:column; gap:.4rem;
+    }
+    .card h4{ margin:.1rem 0 .25rem; font-size:1.05rem; }
+
+    /* ========== Footer ========== */
+    .site-footer{ background:#333; color:#fff; text-align:center; padding:1rem; margin-top:2rem; }
+    .footer-sns img{ width:3rem; height:auto; margin:1rem; vertical-align:middle; }
+    .line-icon{ border-radius:50%; overflow:hidden; }
+    .footer-links{ display:flex; flex-wrap:wrap; justify-content:center; gap:.8rem; margin-bottom:.5rem; }
+    .footer-links a{ color:#fff; text-decoration:none; white-space:nowrap; }
+    .footer-links a:hover{ text-decoration:underline; }
+    .footer-copy{ font-size:.9rem; color:#ccc; margin:.5rem 0 0; }
+
+    /* 印刷 */
+    @media print{ body{ background:#fff; } .card{ break-inside:avoid; } }
+  </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="site-header" role="banner">
+    <nav class="header-nav" aria-label="主要ナビゲーション">
+      <a href="index.html">トップページ</a>
+      <a href="outline.html">ゼミ概要</a>
+      <a href="question.html">Q&amp;A</a>
+      <a href="schedule.html" aria-current="page">年度予定</a>
+      <a href="teacher.html">教員紹介</a>
+      <a href="student.html">ゼミ生紹介</a>
+      <a href="news.html">お知らせ</a>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="teacher-top" aria-label="年度予定メイン画像">
+    <div class="teacheroverlay-box">
+      <div class="planoverlay-text"><h1>年　度　予　定</h1></div>
+    </div>
+  </section>
+
+  <!-- 見出し帯 -->
+  <div class="bar-title">
+    <h2 class="bar-title__text">スケジュール</h2>
+  </div>
+
+  <main class="wrap">
+    <!-- 3年生 -->
+    <section class="year-block">
+      <h2 class="section-title year-title">3年生のスケジュール</h2>
+
+      <h3 class="section-subtitle">概要（表）</h3>
+      <table class="table">
+        <thead>
+          <tr><th>月</th><th>主な内容</th><th>備考</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="mm">4月</td><td>ガイダンス　教科書輪読</td><td>グループ編成①</td></tr>
+          <tr><td class="mm">5月</td><td>教科書輪読</td><td></td></tr>
+          <tr><td class="mm">6月</td><td>教科書輪読　統計ソフトStataを用いた演習</td><td>グループ編成②</td></tr>
+          <tr><td class="mm">7月</td><td>統計ソフトStataを用いた演習　グループ論文開始</td><td></td></tr>
+          <tr><td class="mm">8-9月</td><td><span class="badge">合宿</span>グループ論文経過発表</td><td>場所：早稲田大学セミナーハウス</td></tr>
+          <tr><td class="mm">10月</td><td>グループ論文</td><td>オープンゼミ</td></tr>
+          <tr><td class="mm">11月</td><td>グループ論文</td><td>データサイエンスコンペティション（有志）</td></tr>
+          <tr><td class="mm">12月</td><td>グループ論文</td><td>2・3年生顔合わせ</td></tr>
+          <tr><td class="mm">1月</td><td><span class="badge">学内発表</span>インゼミ</td><td>別所ゼミ（政経）川村ゼミ（人科）／会場：早稲田大学121号館</td></tr>
+        </tbody>
+      </table>
+
+      <h3 class="section-subtitle">月別の活動紹介</h3>
+      <div class="grid">
+        <article class="card"><h4>4月｜ガイダンス　教科書輪読</h4><p>ゼミメンバー同士でグループを結成し、教科書の輪読をグループ単位で進めます。</p></article>
+        <article class="card"><h4>6月｜Stata演習　</h4><p>グループを再編成し、グループ論文の執筆に向けて統計ソフト「Stata」の基本操作を学習します。</p></article>
+        <article class="card"><h4>7月｜グループ論文開始　</h4><p>グループ論文が始まります。ゼミ合宿までに、研究テーマや仮説、使用するデータの構想を練ります。</p></article>
+        <article class="card"><h4>8-9月｜ゼミ合宿</h4><p>研究の経過発表と親睦を目的に実施。活発な議論と交流を通じて研究を深化させます。</p></article>
+        <article class="card"><h4>10月｜オープンゼミ</h4><p>2年生に向けてゼミ活動を紹介。来年度の入ゼミ希望者との交流を行います。</p></article>
+        <article class="card"><h4>1月｜インゼミ（学内発表会）</h4><p>他学部のゼミとの合同発表会で成果を発表。3年生の研究の集大成を共有します。</p></article>
+      </div>
+    </section>
+
+    <!-- 2年生 -->
+    <section class="year-block">
+      <h2 class="section-title year-title">※2年生のスケジュール</h2>
+
+      <h3 class="section-subtitle">概要（表）</h3>
+      <table class="table">
+        <thead>
+          <tr><th>月</th><th>主な内容</th><th>備考</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="mm">9月</td><td>オープンゼミ</td><td></td></tr>
+          <tr><td class="mm">10月</td><td>希望ゼミ申請</td><td></td></tr>
+          <tr><td class="mm">11月</td><td>ゼミ面談</td><td>※志願者が予定人数を超過した場合に実施</td></tr>
+          <tr><td class="mm">12月</td><td>ゼミ生決定　2・3年生顔合わせ</td><td></td></tr>
+        </tbody>
+      </table>
+
+      <h3 class="section-subtitle">月別の活動紹介</h3>
+      <div class="grid">
+        <article class="card"><h4>9月｜オープンゼミ</h4><p>ゼミの研究内容や雰囲気を紹介。来年度の入ゼミ希望者との交流や質疑応答を行います。</p></article>
+        <article class="card"><h4>10月｜希望ゼミ申請</h4><p>入ゼミを希望する学生が志望理由をまとめて申請を行います。</p></article>
+        <article class="card"><h4>11月｜ゼミ面談</h4><p>在籍ゼミ生との面談を実施し、志望動機や学びたい内容について話し合います。</p></article>
+        <article class="card"><h4>12月｜ゼミ生決定　2・3年生顔合わせ</h4><p>翌年度の新ゼミ生が決定。2・3年生が顔合わせを行い、活動方針を共有して交流を深めます。</p></article>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-sns">
+      <a href="https://www.instagram.com/oikawa_zemiii?igsh=MTk3d201NWJvczlxaA==" target="_blank" rel="noopener">
+        <img src="インスタ.png" alt="Instagram" class="insta-icon" />
+      </a>
+      <a href="https://line.me/ti/g2/SfbULoGEmAWoT1aAh0XnD6KRkZOXD4zk79qlug?utm_source=invitation&utm_medium=QR_code&utm_campaign=default" target="_blank" rel="noopener">
+        <img src="オープンチャット.png" alt="LINEオープンチャット" class="line-icon" />
+      </a>
+    </div>
+
+    <nav class="footer-links" aria-label="フッターナビゲーション">
+      <a href="index.html">トップページ</a>
+      <a href="outline.html">ゼミ概要</a>
+      <a href="question.html">Q&amp;A</a>
+      <a href="schedule.html" aria-current="page">年度予定</a>
+      <a href="teacher.html">教員紹介</a>
+      <a href="student.html">ゼミ生紹介</a>
+      <a href="news.html">お知らせ</a>
+    </nav>
+
+    <p class="footer-copy">Copyright © Oikawa Seminar Rights Reserved.</p>
+  </footer>
+</body>
+</html>

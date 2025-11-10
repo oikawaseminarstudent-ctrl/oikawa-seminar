@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Q&A｜及川ゼミ</title>
+
+  <!-- フォント -->
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic&display=swap" rel="stylesheet" />
+
+  <!-- 共通CSS（先） → ページ専用CSS（後） -->
+  <link rel="stylesheet" href="stylesheets/index.css" />
+  <link rel="stylesheet" href="qa.css" />
+
+  <meta name="description" content="及川ゼミのQ&Aページ。選考・活動内容・研究・雰囲気など、よくある質問にお答えします。">
+
+  <style>
+    /* ==============================
+       ベース
+    ============================== */
+    :root{
+      /* 見出し帯 */
+      --bar-color:#CDA209; --bar-text:#fff; --bar-max:1100px; --bar-line-thin:2px;
+      /* カード/文字 */
+      --card:#fff; --text:#333; --muted:#666;
+      --shadow:0 6px 18px rgba(0,0,0,.06); --radius:14px;
+      --wrap:min(1000px,92vw);
+      /* 画像枠（他ページと整合） */
+      --media-h-desktop:200px; --media-h-mobile:220px;
+    }
+
+    @media (prefers-color-scheme: dark){
+      :root{ --card:#1f1f1f; --muted:#bbb; --shadow:0 2px 10px rgba(0,0,0,.5); }
+      body{ color:#eee; background:#111; }
+    }
+
+    html, body { margin:0; padding:0; }
+    body{
+      font-family:"Zen Maru Gothic", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      color:var(--text); background:#fffaf2; /* ほんのりクリーム */
+    }
+
+    /* ==============================
+       ヘッダー/ナビ
+    ============================== */
+    .site-header{
+      position:sticky; top:0; z-index:1000; height:60px;
+      background:#003366; display:flex; align-items:center;
+      padding:0 3%; box-sizing:border-box; overflow-x:auto;
+      -webkit-overflow-scrolling:touch;
+    }
+    .site-header::-webkit-scrollbar{ display:none; } /* スクロールバー非表示 */
+    .header-nav{ display:flex; flex-wrap:nowrap; gap:24px; white-space:nowrap; justify-content:flex-start; }
+    .header-nav a{
+      color:#fff; text-decoration:none; font-size:16px; line-height:1.2; padding:.5rem 0;
+    }
+    .header-nav a:hover{ color:#00a2ff; }
+    @media (max-width:768px){
+      .header-nav{ gap:16px; }
+      .header-nav a{ font-size:14px; }
+    }
+
+    /* ==============================
+       トップ（オーバーレイ）
+    ============================== */
+    .teacher-top{ position:relative; width:100%; height:360px; overflow:hidden; }
+    .top-image{ width:100%; height:100%; object-fit:cover; display:block; }
+    .teacheroverlay-box{
+      position:absolute; inset:0; background:rgba(0,0,0,.6);
+      display:flex; align-items:center; justify-content:center; z-index:1;
+    }
+    /* このページで使うのは questionoverlay-text のみ */
+    .questionoverlay-text{
+      color:#fff; text-align:center; font-weight:bold; line-height:1.6;
+      font-family:"Zen Maru Gothic", sans-serif;
+    }
+
+    /* ==============================
+       見出し帯
+    ============================== */
+    .bar-title{
+      width:100%; max-width:var(--bar-max); margin:1.5rem auto;
+      background:var(--bar-color); position:relative; padding:1rem 1.5rem; box-sizing:border-box;
+      border-top:1px solid rgba(205,162,9,.8); border-bottom:1px solid rgba(205,162,9,.8);
+    }
+    .bar-title::before, .bar-title::after{
+      content:""; position:absolute; left:0; width:100%; height:var(--bar-line-thin); background:#fff;
+    }
+    .bar-title::before{ top:0; } .bar-title::after{ bottom:0; }
+    .bar-title__text{
+      color:#fff; font-size:clamp(1.4rem,3vw,1.8rem); font-weight:700; margin:0; text-align:center;
+    }
+    @media (max-width:1024px){
+      .bar-title{ width:auto; margin:1.5rem .5rem; border-radius:.4rem; }
+    }
+
+    /* ==============================
+       Q&A 本体
+    ============================== */
+    .qa-block{
+      max-width:1000px; margin:1rem auto 0; padding:1rem;
+    }
+    .qa-item + .qa-item{ margin-top:.75rem; }
+    .qa-question{
+      font-size:1.2rem; color:#333; margin:0 0 .5rem; font-weight:600;
+    }
+    .qa-answer{
+      font-size:1rem; line-height:1.6; color:#555; margin:0 0 1.2rem;
+      padding-left:1rem; border-left:3px solid orange;
+    }
+
+    /* ==============================
+       フッター（index.css の保険）
+    ============================== */
+    .site-footer{ background:#333; color:#fff; padding:1rem; text-align:center; }
+    .footer-sns img{ width:3rem; height:auto; margin:1rem; vertical-align:middle; }
+    .line-icon{ border-radius:50%; overflow:hidden; }
+    .footer-links{ display:flex; flex-wrap:wrap; justify-content:center; gap:.8rem; margin-bottom:.5rem; }
+    .footer-links a{ color:#fff; text-decoration:none; white-space:nowrap; }
+    .footer-links a:hover{ text-decoration:underline; }
+    .footer-copy{ font-size:.9rem; color:#ccc; margin:.5rem 0 0; }
+  </style>
+</head>
+<body>
+
+  <!-- ヘッダー/ナビ -->
+  <header class="site-header" role="banner">
+    <nav class="header-nav" aria-label="主要ナビゲーション">
+      <a href="index.html">トップページ</a>
+      <a href="outline.html">ゼミ概要</a>
+      <a href="question.html" aria-current="page">Q&amp;A</a>
+      <a href="schedule.html">年度予定</a>
+      <a href="teacher.html">教員紹介</a>
+      <a href="student.html">ゼミ生紹介</a>
+      <a href="news.html">お知らせ</a>
+    </nav>
+  </header>
+
+  <main id="main" role="main">
+    <!-- トップ（オーバーレイ） -->
+    <section class="teacher-top">
+      <div class="teacheroverlay-box">
+        <div class="questionoverlay-text">
+          <h1 class="page-title" aria-label="Q and A">Q ＆ A</h1>
+        </div>
+      </div>
+    </section>
+
+    <!-- ゼミ選び -->
+    <section class="qa-section" aria-labelledby="qa-choose">
+      <div class="bar-title">
+        <h2 id="qa-choose" class="bar-title__text">ゼミ選び・参加に関する質問</h2>
+      </div>
+
+      <div class="qa-block">
+        <article class="qa-item">
+          <h3 class="qa-question">Q1. ゼミの選考はどのように行われますか？</h3>
+          <p class="qa-answer"><strong>A.</strong> 志望理由と面接の結果に基づき選考します。</p>
+        </article>
+
+        <article class="qa-item">
+          <h3 class="qa-question">Q2. サークルやアルバイトとの両立は可能ですか？</h3>
+          <p class="qa-answer"><strong>A.</strong> はい、可能です！多くのゼミ生が両立しています。活動は授業時間内や合宿などに集中しているため、個人の時間も確保しやすいです。</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- 活動内容 -->
+    <section class="qa-section" aria-labelledby="qa-activity">
+      <div class="bar-title">
+        <h2 id="qa-activity" class="bar-title__text">活動内容に関する質問</h2>
+      </div>
+
+      <div class="qa-block">
+        <article class="qa-item">
+          <h3 class="qa-question">Q3. 授業以外にどんな活動がありますか？</h3>
+          <p class="qa-answer"><strong>A.</strong> ゼミ合宿や懇親会に加え、他ゼミとのインゼミも予定。授業内だけでは得られない学びや交流の機会があります。</p>
+        </article>
+
+        <article class="qa-item">
+          <h3 class="qa-question">Q4. 論文・研究テーマはどうやって決まりますか？</h3>
+          <p class="qa-answer"><strong>A.</strong> 3年生でグループ論文を執筆し、研究手法を学びながら関心を広げます。その過程で深まった興味をベースに、個人の研究テーマを決めていきます。</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- 学び・研究 -->
+    <section class="qa-section" aria-labelledby="qa-study">
+      <div class="bar-title">
+        <h2 id="qa-study" class="bar-title__text">学び・研究面に関する質問</h2>
+      </div>
+
+      <div class="qa-block">
+        <article class="qa-item">
+          <h3 class="qa-question">Q5. どのような研究テーマを扱っていますか？</h3>
+          <p class="qa-answer"><strong>A.</strong> 学校のブランド力と就職先の関係、スポーツ施設数と健康寿命、熱中症搬送者数と社会構造など、様々なテーマを扱っています。</p>
+        </article>
+
+        <article class="qa-item">
+          <h3 class="qa-question">Q6. 統計ソフト（Stata）はどのように学習しますか？</h3>
+          <p class="qa-answer"><strong>A.</strong> 春学期に基礎を学び、その後ゼミで使用を始めます。初心者でも問題ありません。教員が丁寧に指導します。</p>
+        </article>
+
+        <article class="qa-item">
+          <h3 class="qa-question">Q7. 勉強時間はどのくらい必要ですか？</h3>
+          <p class="qa-answer"><strong>A.</strong> グループにより異なります。授業は「発表準備→発表」のサイクルで進むため授業内で完結することが多いですが、発表前は授業外に少し時間を取ることもあります。</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- 雰囲気 -->
+    <section class="qa-section" aria-labelledby="qa-atmos">
+      <div class="bar-title">
+        <h2 id="qa-atmos" class="bar-title__text">ゼミの雰囲気に関する質問</h2>
+      </div>
+
+      <div class="qa-block">
+        <article class="qa-item">
+          <h3 class="qa-question">Q8. ゼミの雰囲気はどんな感じですか？</h3>
+          <p class="qa-answer"><strong>A.</strong> 和気あいあいで仲が良い一方、発表は真剣。懇親会では盛り上がり、教員との距離も近いです。</p>
+        </article>
+
+        <article class="qa-item">
+          <h3 class="qa-question">Q9. 先生はどんな方ですか？</h3>
+          <p class="qa-answer"><strong>A.</strong> 気さくで相談しやすい先生です。研究や進路はもちろん、日常のことも気軽に相談できます。</p>
+        </article>
+
+        <article class="qa-item">
+          <h3 class="qa-question">Q10. 先輩（3・4年生）やOBOGとの繋がりはありますか？</h3>
+          <p class="qa-answer"><strong>A.</strong> あります。3年生とは懇親会などで交流。新設ゼミですが、ご希望があれば旧・藁谷ゼミ（0期）や他ゼミOBOGとも話せます。</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <!-- フッター -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-sns">
+      <a href="https://www.instagram.com/oikawa_zemiii?igsh=MTk3d201NWJvczlxaA==" target="_blank" rel="noopener">
+        <img src="インスタ.png" alt="Instagram" class="insta-icon" />
+      </a>
+      <a href="https://line.me/ti/g2/SfbULoGEmAWoT1aAh0XnD6KRkZOXD4zk79qlug?utm_source=invitation&utm_medium=QR_code&utm_campaign=default" target="_blank" rel="noopener">
+        <img src="オープンチャット.png" alt="LINEオープンチャット" class="line-icon" />
+      </a>
+    </div>
+
+    <nav class="footer-links" aria-label="フッターナビゲーション">
+      <a href="index.html">トップページ</a>
+      <a href="outline.html">ゼミ概要</a>
+      <a href="question.html" aria-current="page">Q&amp;A</a>
+      <a href="schedule.html">年度予定</a>
+      <a href="teacher.html">教員紹介</a>
+      <a href="student.html">ゼミ生紹介</a>
+      <a href="news.html">お知らせ</a>
+    </nav>
+
+    <p class="footer-copy">Copyright © Oikawa Seminar Rights Reserved.</p>
+  </footer>
+
+</body>
+</html>

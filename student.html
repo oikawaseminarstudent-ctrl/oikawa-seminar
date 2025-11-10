@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>及川ゼミ｜ゼミ生紹介</title>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ==============================
+       ベース
+    ============================== */
+    :root{
+      /* 見出し帯 */
+      --bar-color:#CDA209; --bar-max:1100px; --bar-line:2px;
+      /* カード・文字 */
+      --card-bg:#fff; --text:#333; --muted:#666;
+      --shadow:0 2px 8px rgba(0,0,0,.1); --radius:12px;
+      --wrap:min(1000px,92vw);
+    }
+
+    html, body { margin:0; padding:0; }
+    body{
+      font-family:"Zen Maru Gothic", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      color:#333; background:#fffaf2; /* ほんのりクリーム */
+    }
+
+    /* ==============================
+       ヘッダー/ナビ
+    ============================== */
+    .site-header{
+      position:sticky; top:0; z-index:1000; height:60px;
+      background:#003366; display:flex; align-items:center;
+      padding:0 3%; box-sizing:border-box; overflow-x:auto;
+      -webkit-overflow-scrolling:touch;
+    }
+    .site-header::-webkit-scrollbar{ display:none; }
+    .header-nav{ display:flex; flex-wrap:nowrap; gap:24px; white-space:nowrap; justify-content:flex-start; }
+    .header-nav a{
+      color:#fff; text-decoration:none; font-size:16px; line-height:1.2; padding:.5rem 0;
+    }
+    .header-nav a:hover{ color:#00a2ff; }
+    @media (max-width:768px){
+      .header-nav{ gap:16px; }
+      .header-nav a{ font-size:14px; }
+    }
+
+    /* ==============================
+       ヒーロー（上部ビジュアル）
+    ============================== */
+    .teacher-top{ position:relative; width:100%; height:360px; overflow:hidden; }
+    .top-image{ width:100%; height:100%; object-fit:cover; display:block; }
+    .teacheroverlay-box{
+      position:absolute; inset:0; background:rgba(0,0,0,.6);
+      display:flex; align-items:center; justify-content:center; z-index:1;
+    }
+    .studentoverlay-text{
+      color:#fff; text-align:center; font-weight:bold; line-height:1.6;
+      font-family:"Zen Maru Gothic", sans-serif;
+    }
+
+    /* ==============================
+       見出し帯
+    ============================== */
+    .bar-title{
+      width:100%; max-width:var(--bar-max); margin:1.5rem auto;
+      background:var(--bar-color); position:relative; padding:1rem 1.5rem; box-sizing:border-box;
+      border-top:1px solid rgba(205,162,9,.8); border-bottom:1px solid rgba(205,162,9,.8);
+    }
+    .bar-title::before,.bar-title::after{
+      content:""; position:absolute; left:0; width:100%; height:var(--bar-line); background:#fff;
+    }
+    .bar-title::before{ top:0; } .bar-title::after{ bottom:0; }
+    .bar-title__text{
+      margin:0; color:#fff; font-weight:700; text-align:center;
+      font-size:clamp(1.4rem,3vw,1.8rem);
+    }
+    @media (max-width:1024px){
+      .bar-title{ width:auto; margin:1.5rem .5rem; border-radius:.4rem; }
+    }
+
+    /* ==============================
+       本文コンテナ
+    ============================== */
+    .generations{
+      box-sizing:border-box; max-width:700px; /* ブログと統一 */
+      margin:2rem auto; padding:0 1rem; color:var(--text);
+    }
+    .generations-heading{
+      font-size:clamp(1.4rem,2.5vw,1.8rem); font-weight:800; text-align:center; margin-bottom:1.25rem;
+    }
+
+    /* ==============================
+       カード
+    ============================== */
+    .generation-card{
+      background:var(--card-bg); border-radius:var(--radius); box-shadow:var(--shadow);
+      padding:clamp(1rem,2.5vw,1.5rem) clamp(1rem,3vw,2rem); margin:1.25rem 0;
+    }
+    .generation-title{
+      font-size:clamp(1.2rem,2.5vw,1.6rem); font-weight:700; text-align:center; margin-bottom:.5rem;
+    }
+    .generation-members{ text-align:center; color:var(--muted); font-size:.95rem; margin-bottom:1rem; }
+    .generation-content{ line-height:1.75; margin-bottom:1rem; }
+
+    /* 写真 */
+    .generation-photo{ text-align:center; margin-bottom:1rem; }
+    .generation-photo img{
+      width:100%; max-width:640px; border-radius:10px;
+      box-shadow:0 2px 6px rgba(0,0,0,.15); object-fit:cover;
+    }
+    .photo-caption{ font-size:.85rem; color:var(--muted); margin-top:.4rem; }
+
+    /* コメント */
+    .comment-label{ margin-bottom:.25rem; }
+    .generation-comment blockquote{
+      background:#f7f7f7; border-left:5px solid #0a66c2;
+      padding:.85rem 1rem; margin:.25rem 0 0; border-radius:6px; font-style:italic;
+    }
+    .generation-comment .comment-footer{
+      display:block; margin-top:.4rem; font-style:normal; color:var(--muted); font-size:.95rem;
+    }
+
+    @media (max-width:480px){
+      .generation-card{ padding:.9rem 1rem; }
+      .generation-members{ font-size:.9rem; }
+      .photo-caption{ font-size:.8rem; }
+      .generation-comment blockquote{ padding:.75rem .85rem; }
+    }
+
+    /* ==============================
+       フッター
+    ============================== */
+    .site-footer{ background:#333; color:#fff; text-align:center; padding:1rem; }
+    .footer-sns img{ width:3rem; height:auto; margin:1rem; vertical-align:middle; }
+    .line-icon{ border-radius:50%; overflow:hidden; }
+    .footer-links{ display:flex; flex-wrap:wrap; justify-content:center; gap:.8rem; margin-bottom:.5rem; }
+    .footer-links a{ color:#fff; text-decoration:none; white-space:nowrap; }
+    .footer-links a:hover{ text-decoration:underline; }
+    .footer-copy{ font-size:.9rem; color:#ccc; margin:.5rem 0 0; }
+  </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="site-header" role="banner">
+    <nav class="header-nav" aria-label="主要ナビゲーション">
+      <a href="index.html">トップページ</a>
+      <a href="outline.html">ゼミ概要</a>
+      <a href="question.html">Q&amp;A</a>
+      <a href="schedule.html">年度予定</a>
+      <a href="teacher.html">教員紹介</a>
+      <a href="student.html" aria-current="page">ゼミ生紹介</a>
+      <a href="news.html">お知らせ</a>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="teacher-top">
+    <div class="teacheroverlay-box">
+      <div class="studentoverlay-text"><h1>ゼ　ミ　生　紹　介</h1></div>
+    </div>
+  </section>
+
+  <!-- 見出し帯 -->
+  <div class="bar-title"><h2 class="bar-title__text">期別ゼミ生紹介</h2></div>
+
+  <!-- 学年ごとのカード -->
+  <section class="generations">
+    <!-- 第１期生 -->
+    <article class="generation-card">
+      <h2 class="generation-title">第1期生（2025年度入ゼミ）</h2>
+      <p class="generation-members"><strong>在籍人数：</strong>15名（男12・女3）</p>
+
+      <div class="generation-photo">
+        <img src="zemi1st.JPG" alt="第1期生 集合写真（2025年秋）">
+        <p class="photo-caption">▲ 集合写真（2025年秋）</p>
+      </div>
+
+      <div class="generation-content">
+        <p>第1期生として、ゼミの立ち上げ期に、広報活動をはじめとした基盤づくりに活発に取り組みました。</p>
+      </div>
+
+      <div class="generation-comment">
+        <p class="comment-label"><strong>代表コメント：</strong></p>
+        <blockquote>
+          一緒に真剣で楽しいゼミライフを送りましょう！及川ゼミで待ってます！
+          <span class="comment-footer">― 第1期生 幹事長・大平健一郎</span>
+        </blockquote>
+      </div>
+    </article>
+
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-sns">
+      <a href="https://www.instagram.com/oikawa_zemiii?igsh=MTk3d201NWJvczlxaA==" target="_blank" rel="noopener">
+        <img src="インスタ.png" alt="Instagram" class="insta-icon" />
+      </a>
+      <a href="https://line.me/ti/g2/SfbULoGEmAWoT1aAh0XnD6KRkZOXD4zk79qlug?utm_source=invitation&utm_medium=QR_code&utm_campaign=default" target="_blank" rel="noopener">
+        <img src="オープンチャット.png" alt="LINEオープンチャット" class="line-icon" />
+      </a>
+    </div>
+
+    <nav class="footer-links" aria-label="フッターナビゲーション">
+      <a href="index.html">トップページ</a>
+      <a href="outline.html">ゼミ概要</a>
+      <a href="question.html">Q&amp;A</a>
+      <a href="schedule.html">年度予定</a>
+      <a href="teacher.html">教員紹介</a>
+      <a href="student.html" aria-current="page">ゼミ生紹介</a>
+      <a href="news.html">お知らせ</a>
+    </nav>
+
+    <p class="footer-copy">Copyright © Oikawa Seminar Rights Reserved.</p>
+  </footer>
+</body>
+</html>
+
