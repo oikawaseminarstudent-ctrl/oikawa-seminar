@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- トップページ（index.html ではなく /oikawa-seminar/ を正規URLに） -->
+  <url>
+    <loc>https://oikawaseminarstudent-ctrl.github.io/oikawa-seminar/</loc>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- 下層ページ -->
+  <url><loc>https://oikawaseminarstudent-ctrl.github.io/oikawa-seminar/teacher.html</loc></url>
+  <url><loc>https://oikawaseminarstudent-ctrl.github.io/oikawa-seminar/student.html</loc></url>
+  <url><loc>https://oikawaseminarstudent-ctrl.github.io/oikawa-seminar/question.html</loc></url>
+  <url><loc>https://oikawaseminarstudent-ctrl.github.io/oikawa-seminar/outline.html</loc></url>
+  <url><loc>https://oikawaseminarstudent-ctrl.github.io/oikawa-seminar/schedule.html</loc></url>
+  <url><loc>https://oikawaseminarstudent-ctrl.github.io/oikawa-seminar/news.html</loc></url>
+</urlset>
