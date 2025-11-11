@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://oikawaseminarstudent-ctrl.github.io/oikawa-seminar/sitemap.xml
